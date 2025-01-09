@@ -1,0 +1,54 @@
+{
+  "expo": {
+    "name": "lms-app",
+    "slug": "lms-app",
+    "version": "1.0.0",
+    "icon": "./assets/images/icon.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "orientation": [
+        "portrait",
+        "landscape"
+      ],
+      "ios": {
+        "bundleIdentifier": "com.hellocb.lmsapp",
+        "buildNumber": "1.0.0"
+      },
+      "bundleIdentifier": "com.hellocb.lmsapp"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.hellocb.lmsapp",
+      "orientation": "default"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-build-properties",
+      "expo-font",
+      "expo-secure-store"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a5122cac-a2d8-4ac1-8d06-846acd20060d"
+      }
+    }
+  }
+}

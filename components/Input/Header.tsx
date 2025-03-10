@@ -1,8 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
-import NotificationBell from '@/components/Element/NotificationBell';
+import NotificationBell from '../../components/Element/NotificationBell';
 import { router, useLocalSearchParams, useRouter } from "expo-router";
 import { connect } from "react-redux";
-import { disableAutoNavigate, getNotifications, getRecentCourses } from "@/store/action/common/courseAction";
+import { disableAutoNavigate, getNotifications, getRecentCourses } from "../../store/action/common/courseAction";
 import { useEffect, useState } from "react";
 
 

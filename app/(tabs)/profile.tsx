@@ -1,13 +1,13 @@
-import { ThemedText } from "@/components/ThemedText";
+import { ThemedText } from "../../components/ThemedText";
 import { useCallback, useEffect, useState } from "react";
 import { ImageBackground, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import * as SecureStore from 'expo-secure-store';
 import { Ionicons } from "@expo/vector-icons";
 import { Icon } from "react-native-paper";
-import { clear_storage } from "@/constants/helper";
+import { clear_storage } from "../../constants/helper";
 import { router, useFocusEffect } from "expo-router";
 import { connect } from "react-redux";
-import { clearLogin, getMyDetails } from "@/store/action/common/authAction";
+import { clearLogin, getMyDetails } from "../../store/action/common/authAction";
 
 function TabTwoScreen(props:any) {
   const [name, setName] = useState('');
@@ -94,7 +94,7 @@ function TabTwoScreen(props:any) {
           <ThemedText style={{ color: 'black', fontSize: 15, textAlign: 'left', marginLeft: 20 }}>More</ThemedText>
 
           <View style={styles.card}>
-            <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between',marginBottom: 25 }} onPress={()=>{router.push({pathname: "/Pages/Dummy", params: {title: "Help & Support"}})}}>
+            <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between',marginBottom: 25 }} onPress={()=>{router.push({pathname: "https://visionfundindia.in/help-and-support" })}}>
               <Icon
                 source={'help-circle-outline'}
                 size={18}
@@ -107,7 +107,7 @@ function TabTwoScreen(props:any) {
                 color={'light'}
               />
             </TouchableOpacity>
-            <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 25 }} onPress={()=>{router.push({pathname: "/Pages/Dummy", params: {title: "FAQ"}})}}>
+            <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 25 }} onPress={()=>{router.push({pathname: "https://visionfundindia.in/faq"})}}>
               <Icon
                 source={'chat-question-outline'}
                 size={18}
@@ -120,7 +120,7 @@ function TabTwoScreen(props:any) {
                 color={'light'}
             />
             </TouchableOpacity>
-            <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between',marginBottom: 25 }} onPress={()=>{router.push({pathname: "/Pages/Dummy", params: {title: "Privacy Policy"}})}}>
+            <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between',marginBottom: 25 }} onPress={()=>{router.push({pathname: "https://visionfundindia.in/privacy-policy" })}}>
               <Icon
                 source={'shield-alert-outline'}
                 size={18}
@@ -133,7 +133,7 @@ function TabTwoScreen(props:any) {
                 color={'light'}
             />
             </TouchableOpacity>
-            <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between' }} onPress={()=>{router.push({pathname: "/Pages/Dummy", params: {title: "Terms & Conditions"}})}}>
+            <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between' }} onPress={()=>{router.push({pathname: "https://visionfundindia.in/terms-and-conditions"})}}>
               <Icon
                 source={'file-document-edit-outline'}
                 size={18}

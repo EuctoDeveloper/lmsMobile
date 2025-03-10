@@ -1,6 +1,7 @@
 import { all } from 'redux-saga/effects'
 import { watchChangePasswordSaga, watchFetchForgotPasswordSaga, watchFetchLoginSaga, watchFetchMyDetailsSaga, watchFetchResetPasswordSaga, watchForgotPasswordMobileSaga, watchOtpLoginSaga, watchResetPasswordMobileSaga, watchSendOtpSaga } from './common/AuthSaga'
 import { watchClearNotificationSaga, watchDirtNotificationSaga, watchEnrollCourseSaga, watchFetchCompletedCoursesSaga, watchFetchCourseDetailSaga, watchFetchCourseListSaga, watchFetchLessonDetailSaga, watchFetchMyAchievementsSaga, watchFetchNotificationsSaga, watchFetchRecentCoursesSaga, watchSaveLessonProgressSaga } from './common/CourseSaga'
+import { watchFetchMyWebinarsSaga, watchFetchUpcomingWebinarSaga, watchFetchWebinarDetailSaga } from './common/WebinarSaga'
 
 export default function* rootSaga() {
     yield all([
@@ -24,5 +25,8 @@ export default function* rootSaga() {
         watchChangePasswordSaga(),
         watchFetchMyDetailsSaga(),
         watchFetchCompletedCoursesSaga(),
+        watchFetchMyWebinarsSaga(),
+        watchFetchWebinarDetailSaga(),
+        watchFetchUpcomingWebinarSaga(),
     ])
 }

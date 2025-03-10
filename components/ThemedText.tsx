@@ -1,6 +1,6 @@
 import { Text, type TextProps, StyleSheet } from 'react-native';
 
-import { useThemeColor } from '@/hooks/useThemeColor';
+import { useThemeColor } from '../hooks/useThemeColor';
 import { useFonts, Inter_400Regular } from '@expo-google-fonts/inter';
 
 export type ThemedTextProps = TextProps & {

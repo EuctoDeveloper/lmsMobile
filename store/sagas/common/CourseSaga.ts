@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 import * as type from '../../types';
 import { SagaIterator } from 'redux-saga';
-import { clearNotificationApi, dirtNotificationApi, enrollCourseApi, getCompletedCoursesApi, getCourseDetailApi, getCourseListApi, getLessonApi, getMyAchievementsApi, getNotificationsApi, getRecentCoursesApi, saveLessonProgressApi } from '@/store/api/common/courseApi';
+import { clearNotificationApi, dirtNotificationApi, enrollCourseApi, getCompletedCoursesApi, getCourseDetailApi, getCourseListApi, getLessonApi, getMyAchievementsApi, getNotificationsApi, getRecentCoursesApi, saveLessonProgressApi } from '../../api/common/courseApi';
 
 function* fetchRecentCoursesSaga(action: any): SagaIterator {
     try {

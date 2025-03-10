@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { CheckBox } from 'react-native-elements';
-import Header from '@/components/Input/Header';
+import Header from '../../components/Input/Header';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, TextInput } from 'react-native-paper';
 import { connect } from 'react-redux';
-import { changePassword } from '@/store/action/common/authAction';
+import { changePassword } from '../../store/action/common/authAction';
 import { router } from 'expo-router';
-import { ThemedText } from '@/components/ThemedText';
+import { ThemedText } from '../../components/ThemedText';
 
 const ChangePassword = (props: any) => {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -52,11 +52,11 @@ const ChangePassword = (props: any) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-        <ScrollView>
+        <ScrollView keyboardShouldPersistTaps='handled'>
             <Header title="Change Password" page="(tabs)/profile" />
-            <ScrollView style={styles.container}>
+            <ScrollView style={styles.container} keyboardShouldPersistTaps='handled'>
                 {/* Current Password Input */}
-                <View style={{marginTop: 50}}></View>
+                <View style={{marginTop: 20}}></View>
                 <View style={styles.inputContainer}>
                 <Text style={[styles.label, styles.labelFocused]}>
                     Current Password
@@ -106,6 +106,11 @@ const ChangePassword = (props: any) => {
                 {/* Password Validation Criteria */}
                 <View style={styles.criteriaContainer}>
                 <CheckBox
+                    title="Current Password Entered"
+                    checked={currentPassword.length > 0}
+                    checkedColor="green"
+                />
+                <CheckBox
                     title="Have at least 8 characters"
                     checked={passwordCriteria.minLength}
                     checkedColor="green"
@@ -148,6 +153,7 @@ const ChangePassword = (props: any) => {
                 </ThemedText> : <>
 
                     {
+                    currentPassword.length > 0 && 
                     passwordCriteria.matches &&
                     passwordCriteria.minLength &&
                     passwordCriteria.hasUpperCase &&

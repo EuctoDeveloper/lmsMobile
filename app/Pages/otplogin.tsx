@@ -3,14 +3,15 @@ import { Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { TextInput, Button } from 'react-native-paper';
 import { View, Text } from 'react-native';
-import { errorMessages } from '@/constants/helper';
-import { Loginstyles } from '@/components/Layout/LoginLayoutStyle';
-import LoginLayout from '@/components/Layout/LoginLayout';
-import OtpInput from '@/components/Input/Otp';
+import { errorMessages } from '../../constants/helper';
+import { Loginstyles } from '../../components/Layout/LoginLayoutStyle';
+import LoginLayout from '../../components/Layout/LoginLayout';
+import OtpInput from '../../components/Input/Otp';
 import { router } from 'expo-router';
 import { connect } from 'react-redux';
-import { clearLogin, clearSendOtp, otpLoginAction, sendOtpAction } from '@/store/action/common/authAction';
-import useBackHandler from '@/hooks/useBackHandler';
+import { clearLogin, clearSendOtp, otpLoginAction, sendOtpAction } from '../../store/action/common/authAction';
+import useBackHandler from '../../hooks/useBackHandler';
+import messaging from '@react-native-firebase/messaging';
 
 const Login = (props: any) => {
   const [phone, setPhone] = useState('');
@@ -22,7 +23,7 @@ const Login = (props: any) => {
   const [loading, setLoading] = useState(false);
   useBackHandler();
 
-  const handleLogin = () => {
+  const handleLogin = async() => {
     let valid = true;
     if (!phone) {
       setPhoneError(errorMessages.phone.required);
@@ -44,7 +45,9 @@ const Login = (props: any) => {
     if (valid) {
       setLoading(true);
       if(otpSent) {
-        props.optLogin_({ phone, otp: password });
+
+        const token = await messaging().getToken();
+        props.optLogin_({ phone, otp: password, fcmToken: token  });
       } else {
         props.sendOtp_({ phone });
         // send OTP

@@ -1,5 +1,5 @@
-import Header from '@/components/Input/Header';
-import { disableAutoNavigate, getLesson, resetLessonProgress } from '@/store/action/common/courseAction';
+import Header from '../../components/Input/Header';
+import { disableAutoNavigate, getLesson, resetLessonProgress } from '../../store/action/common/courseAction';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';

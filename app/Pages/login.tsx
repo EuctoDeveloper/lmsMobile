@@ -3,13 +3,15 @@ import { Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { TextInput, Button } from 'react-native-paper';
 import { View, Text } from 'react-native';
-import { errorMessages } from '@/constants/helper';
-import { Loginstyles } from '@/components/Layout/LoginLayoutStyle';
-import LoginLayout from '@/components/Layout/LoginLayout';
+import { errorMessages } from '../../constants/helper';
+import { Loginstyles } from '../../components/Layout/LoginLayoutStyle';
+import LoginLayout from '../../components/Layout/LoginLayout';
 import { connect } from 'react-redux';
-import { loginAction } from '@/store/action/common/authAction';
+import { loginAction } from '../../store/action/common/authAction';
 import { router, useFocusEffect } from 'expo-router';
-import useBackHandler from '@/hooks/useBackHandler';
+import useBackHandler from '../../hooks/useBackHandler';
+import messaging from '@react-native-firebase/messaging';
+import { parse } from '@babel/core';
 
 const Login = (props: any) => {
   const [email, setEmail] = useState('');
@@ -21,13 +23,14 @@ const Login = (props: any) => {
   const [loading, setLoading] = useState(false);
   useBackHandler();
 
-  const handleLogin = () => {
+  const handleLogin = async() => {
     let valid = true;
+    console.log(!/\S+@\S+\.\S+/.test(email) , email.length !=10 , !isNaN(parseInt(email)) , Math.abs(parseInt(email)).toString().length !== 10)
     if (!email) {
-      setEmailError(errorMessages.email.required);
+      setEmailError("Email / Phone Number is required");
       valid = false;
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      setEmailError(errorMessages.email.invalid);
+    } else if (!/\S+@\S+\.\S+/.test(email) && (email.length !=10 || (!isNaN(parseInt(email)) && Math.abs(parseInt(email)).toString().length !== 10))) {
+      setEmailError("Email / Phone Number is Invalid");
       valid = false;
     } else {
       setEmailError('');
@@ -42,7 +45,8 @@ const Login = (props: any) => {
 
     if (valid) {
       setLoading(true);
-      props.loginAction_({ email, password });
+      const token = await messaging().getToken();
+      props.loginAction_({ email, password, fcmToken: token });
     }
   };
 

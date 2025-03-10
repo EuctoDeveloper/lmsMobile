@@ -1,6 +1,6 @@
-import Header from '@/components/Input/Header';
-import useBackHandler from '@/hooks/useBackHandler';
-import { clearNotification, dirtNotification, getNotifications } from '@/store/action/common/courseAction';
+import Header from '../../components/Input/Header';
+import useBackHandler from '../../hooks/useBackHandler';
+import { clearNotification, dirtNotification, getNotifications } from '../../store/action/common/courseAction';
 import { useFocusEffect } from '@react-navigation/native';
 import { router } from 'expo-router';
 import React, { useEffect } from 'react';

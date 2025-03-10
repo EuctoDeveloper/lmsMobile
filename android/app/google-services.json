@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "138841611260",
+    "project_id": "dev-lms-24c9a",
+    "storage_bucket": "dev-lms-24c9a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:138841611260:android:53d7f2c6d3efcce389f079",
+        "android_client_info": {
+          "package_name": "in.visionfundindia.lms"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCw-4RpLhyE8Nc2KK4SbrQnK-28dFYGtjo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

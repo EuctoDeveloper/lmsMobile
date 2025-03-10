@@ -2,10 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Platform, Alert, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient'; // Ensure you have expo-linear-gradient installed
 import { connect } from 'react-redux';
-import { disableAutoNavigate, getLesson, resetLessonProgress, saveLessonProgress } from '@/store/action/common/courseAction';
+import { disableAutoNavigate, getLesson, resetLessonProgress, saveLessonProgress } from '../../store/action/common/courseAction';
 import { useLocalSearchParams, router, useFocusEffect } from 'expo-router';
 import { ToastAndroid } from 'react-native';
-import useBackHandler from '@/hooks/useBackHandler';
+import useBackHandler from '../../hooks/useBackHandler';
 
 
 const Assessment = (props: any) => {
@@ -30,7 +30,6 @@ const Assessment = (props: any) => {
 
   useFocusEffect(
     useCallback(() => {
-      console.log(props.saveLessonProgressData)
       if(props.saveLessonProgressData && props.saveLessonProgressData.message && props.saveLessonProgressData.message.includes('Success')){
         props.resetLessonProgress_();
         if(exit){
@@ -41,7 +40,6 @@ const Assessment = (props: any) => {
           setQuestionIndex(questionIndex + 1);
           setSelectedOption('');
         } else {
-          console.log(id, props.lessonDetail)
           setQuestionIndex(0);
           router.push({pathname: '/Pages/AssesmentOutro', params:{id}});
         }

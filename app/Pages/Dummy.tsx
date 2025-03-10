@@ -1,4 +1,4 @@
-import Header from '@/components/Input/Header';
+import Header from '../../components/Input/Header';
 import { useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';

@@ -1,6 +1,6 @@
-import Header from "@/components/Input/Header";
-import useBackHandler from "@/hooks/useBackHandler";
-import { enableAutoNavigate, enrollCourse, getCourseList } from "@/store/action/common/courseAction";
+import Header from "../../components/Input/Header";
+import useBackHandler from "../../hooks/useBackHandler";
+import { enableAutoNavigate, enrollCourse, getCourseList } from "../../store/action/common/courseAction";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";

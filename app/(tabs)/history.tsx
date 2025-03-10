@@ -1,5 +1,5 @@
-import Header from '@/components/Input/Header';
-import { getCompletedCourses, getMyAchievements } from '@/store/action/common/courseAction';
+import Header from '../../components/Input/Header';
+import { getCompletedCourses, getMyAchievements } from '../../store/action/common/courseAction';
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity, Platform, Alert, ScrollView } from 'react-native';
 import { Divider } from 'react-native-paper';

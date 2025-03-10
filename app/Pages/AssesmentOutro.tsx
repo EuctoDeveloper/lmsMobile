@@ -1,10 +1,10 @@
-import { disableAutoNavigate, getLesson } from '@/store/action/common/courseAction';
+import { disableAutoNavigate, getLesson } from '../../store/action/common/courseAction';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, Platform, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import * as SecureStore from 'expo-secure-store';
-import Layout from "@/components/Layout/Layout"
+import Layout from "../../components/Layout/Layout"
 
 
 const AssessmentOutro = (props: any) => {
@@ -33,7 +33,7 @@ const AssessmentOutro = (props: any) => {
         <Layout>
           <ScrollView>
             <View style={styles.container}>
-              <Text style={styles.moduleText}>Modulew - {props.lessonDetail?.module?.title}</Text>
+              <Text style={styles.moduleText}>Module  - {props.lessonDetail?.module?.title}</Text>
               <View style={styles.statusContainer}>
                 <Text style={styles.status}>Congratulation {name}  🎉</Text>
                 <Text style={styles.statusInfo}>You have completed {props.lessonDetail?.module?.title} assessment</Text>
@@ -48,12 +48,12 @@ const AssessmentOutro = (props: any) => {
                 </View>
               </View>
 
-              <View style={styles.infoContainer}>
+              {/* <View style={styles.infoContainer}>
                 <Text style={styles.lightHeading}>Revision Summary</Text>
                 <View style={styles.greyContainer}>
                   <Text style={{fontSize: 12}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus fugit, illo doloribus placeat possimus tempora aliquid officia eaque, assumenda molestiae earum voluptates sequi culpa. Recusandae veniam inventore sapiente error sit</Text>
                 </View>
-              </View>
+              </View> */}
               <TouchableOpacity style={styles.nextButton} onPress={()=>
                 {
                   props.disableAutoNavigate_();

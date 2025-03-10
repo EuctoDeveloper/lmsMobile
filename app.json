@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "lms-app",
-    "slug": "lms-app",
-    "version": "1.0.0",
+    "name": "EnlightHer",
+    "slug": "EnlightHer",
+    "version": "1.1.0",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "light",
@@ -17,24 +17,21 @@
         "portrait",
         "landscape"
       ],
-      "ios": {
-        "bundleIdentifier": "com.hellocb.lmsapp",
-        "buildNumber": "1.0.0"
-      },
-      "bundleIdentifier": "com.hellocb.lmsapp"
+      "bundleIdentifier": "in.visionfundindia.lms",
+      "buildNumber": "1.1.0"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "assets/images/splash.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.hellocb.lmsapp",
+      "package": "in.visionfundindia.lms",
       "orientation": "default"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "assets/images/splash.png"
     },
     "plugins": [
       "expo-router",
@@ -47,7 +44,10 @@
     },
     "extra": {
       "eas": {
-        "projectId": "a5122cac-a2d8-4ac1-8d06-846acd20060d"
+        "projectId": "629d19ff-7353-4acd-aa8a-c4805d0cc4c1"
+      },
+      "router": {
+        "origin": false
       }
     }
   }

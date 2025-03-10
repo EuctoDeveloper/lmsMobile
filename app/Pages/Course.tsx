@@ -1,12 +1,13 @@
-import Header from "@/components/Input/Header";
+import React from "react";
+import Header from "../../components/Input/Header";
 import { router, useLocalSearchParams } from "expo-router";
 import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ResizeMode, Video } from 'expo-av';
 import { connect } from "react-redux";
-import { getCourseDetail, resetCourseDetail, resetLessonProgress, saveLessonProgress } from "@/store/action/common/courseAction";
+import { getCourseDetail, resetCourseDetail, resetLessonProgress, saveLessonProgress } from "../../store/action/common/courseAction";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ThemedText } from "@/components/ThemedText";
+import { ThemedText } from "../../components/ThemedText";
 import { Divider } from 'react-native-paper';
 import { useFocusEffect, useNavigationState } from "@react-navigation/native";
 import * as ScreenOrientation from 'expo-screen-orientation';
@@ -35,7 +36,6 @@ function Course(props: any) {
     useFocusEffect(
         useCallback(() => {
             if(props.courseDetail && routeName === "Pages/Course"){
-                console.log("course detail", props.courseDetail.courseId, new Date().toISOString())
 
                 setActiveLessonId(null)
                 let lessonSelected = false;
@@ -131,9 +131,12 @@ function Course(props: any) {
             }
         }
     }
+    const activityClick = (lesson: any, index: any) => {
+        setVideoLink(null);
+        router.push({pathname: '/Pages/Activity', params:{id: lesson.lessonId, index}});
+    }
     const handleProgress = (status:any) => {
         if(status.positionMillis === 0 && lastUpdatedPercentage !== 0){
-            console.log(lesson)
             setLastUpdatedPercentage(0)
         }
         if (status.isPlaying) {
@@ -198,24 +201,48 @@ function Course(props: any) {
                                     data={course.item.lessons.filter((lesson: any)=> lesson.type === "video")}
                                     renderItem={({item, index}: any) => (
                                         <>
-                                            <TouchableOpacity style={{marginBottom: 10, ...(item.lessonId === activeLessonId ? {backgroundColor: "rgba(164, 164, 255, 0.2);"}: {})}} onPress={()=>lessonClick(item)}>
+                                            <TouchableOpacity style={{marginBottom: 10, ...(item.lessonId === activeLessonId ? {backgroundColor: "rgba(164, 164, 255, 0.2);"}: {})}} onPress={()=>console.log(item)}>
                                                 <View style={{paddingHorizontal: 16}}>
                                                     <ThemedText style={{fontSize: 16, fontWeight: "bold"}}>{index+1}. {item.title}</ThemedText>
                                                     <ThemedText style={{marginLeft: 20, fontSize:12}}>Video - {item.progress.completedPercentage}% completed</ThemedText>
                                                 </View>
                                             </TouchableOpacity>
+                                            {item.activity && item.activity.length > 0 &&
+                                                <FlatList
+                                                    data={item.activity.map((item: any, index:any) => ({...item, index}))}
+                                                    style={{margin: 0}}
+                                                    renderItem={(activity:any) => (
+                                                        <TouchableOpacity style={{marginBottom: 10}} onPress={()=>activityClick(item, activity.index)}>
+                                                            <View style={{paddingHorizontal: 16}}>
+                                                                <ThemedText style={{fontSize: 16, fontWeight: "bold"}}>{index+1}.{activity.index + 1} Activity</ThemedText>
+                                                            </View>
+                                                        </TouchableOpacity>
+                                                    )}
+                                                />
+                                            }
                                         </>
                                     )}
                                 />
                                 <FlatList
                                 data={course.item.lessons.filter((lesson: any)=> lesson.type !== "video")}
                                 renderItem={({item, index}: any) => (
-                                    <TouchableOpacity style={{marginBottom: 10, ...(item.lessonId === activeLessonId ? {backgroundColor: "rgba(164, 164, 255, 0.2);"}: {})}} onPress={()=>lessonClick(item, true)}>
-                                        <View style={{paddingHorizontal: 16}}>
-                                            <ThemedText style={{fontSize: 16, fontWeight: "bold"}}>{index+1  + (course.item.lessons.filter((lesson: any)=> lesson.type === "video").length)}.  {item.title}</ThemedText>
-                                            <ThemedText style={{marginLeft: 20, fontSize:12}}>Attempted Questions: {item.progress?.questions?.length || 0} / {item.questions?.length} | Points: {item.progress.score} / {item.questions?.reduce((accumulator:any, currentValue:any) => accumulator + currentValue.points, 0)} </ThemedText>
-                                        </View>
-                                    </TouchableOpacity>
+                                    <>
+                                        <TouchableOpacity style={{marginBottom: 10, ...(item.lessonId === activeLessonId ? {backgroundColor: "rgba(164, 164, 255, 0.2);"}: {})}} onPress={()=>lessonClick(item, true)}>
+                                            <View style={{paddingHorizontal: 16}}>
+                                                <ThemedText style={{fontSize: 16, fontWeight: "bold"}}>{index+1  + (course.item.lessons.filter((lesson: any)=> lesson.type === "video").length)}.  {item.title}</ThemedText>
+                                                <ThemedText style={{marginLeft: 20, fontSize:12}}>Attempted Questions: {item.progress?.questions?.length || 0} / {item.questions?.length} | Points: {item.progress.score} / {item.questions?.reduce((accumulator:any, currentValue:any) => accumulator + currentValue.points, 0)} </ThemedText>
+                                            </View>
+                                        </TouchableOpacity>
+                                        {item.activity && item.activity.type && 
+                                            <>
+                                                <TouchableOpacity style={{marginBottom: 10}} onPress={()=>activityClick(item)}>
+                                                    <View style={{paddingHorizontal: 16}}>
+                                                        <ThemedText style={{fontSize: 16, fontWeight: "bold"}}>{index+1}.1 Activity</ThemedText>
+                                                    </View>
+                                                </TouchableOpacity>
+                                            </>
+                                        }
+                                    </>
                                 )}
                             />
                             </View>

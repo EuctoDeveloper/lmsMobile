@@ -1,17 +1,17 @@
 // SimpleComponent.js
-import { Image } from 'react-native';
+import { Image, Keyboard } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { TextInput, Button } from 'react-native-paper';
 import { View, Text } from 'react-native';
-import { errorMessages } from '@/constants/helper';
-import { Loginstyles } from '@/components/Layout/LoginLayoutStyle';
-import LoginLayout from '@/components/Layout/LoginLayout';
+import { errorMessages } from '../../constants/helper';
+import { Loginstyles } from '../../components/Layout/LoginLayoutStyle';
+import LoginLayout from '../../components/Layout/LoginLayout';
 import { connect } from 'react-redux';
-import { forgotPassword, forgotPasswordMobile, loginAction, resetPassword, resetPasswordMobile } from '@/store/action/common/authAction';
+import { forgotPassword, forgotPasswordMobile, loginAction, resetPassword, resetPasswordMobile } from '../../store/action/common/authAction';
 import { router } from 'expo-router';
-import OtpInput from '@/components/Input/Otp';
-import useBackHandler from '@/hooks/useBackHandler';
-import { ThemedText } from '@/components/ThemedText';
+import OtpInput from '../../components/Input/Otp';
+import useBackHandler from '../../hooks/useBackHandler';
+import { ThemedText } from '../../components/ThemedText';
 
 const ForgotPassword = (props: any) => {
   const [email, setEmail] = useState('');
@@ -34,6 +34,8 @@ const ForgotPassword = (props: any) => {
   useBackHandler();
 
   const handleLogin = () => {
+    Keyboard.dismiss();
+    setLoading(true);
     let valid = true;
     if(mode==="email" ) {
       if (!email) {
@@ -146,11 +148,14 @@ const ForgotPassword = (props: any) => {
           router.push('../Pages/login');
       }, 2000)
       setPasswordResetSuccess(true)
+      setLoading(false)
     }  else {
       if (props.resetPassword && props.resetPassword.message) {
+        setLoading(false)
         setLoginError(props.resetPassword.message);
       }
     }
+
   }, [props.resetPassword]);
 
   useEffect(() => {
@@ -160,8 +165,10 @@ const ForgotPassword = (props: any) => {
           router.push('../Pages/login');
       }, 2000)
       setPasswordResetSuccess(true)
+      setLoading(false)
     } else {
       if (props.resetPasswordMobile && props.resetPasswordMobile.message) {
+        setLoading(false)
         setLoginError(props.resetPasswordMobile.message);
       }
     }
@@ -182,9 +189,11 @@ const ForgotPassword = (props: any) => {
     if(props.forgotPassword && props.forgotPassword.message && props.forgotPassword.message.includes('Success')){
       setOtpSent(true);
       setLoginError('');
+      setLoading(false)
     } else {
       if (props.forgotPassword && props.forgotPassword.message) {
         setLoginError(props.forgotPassword.message);
+        setLoading(false)
       }
     }
   }, [props.forgotPassword]);
@@ -193,8 +202,10 @@ const ForgotPassword = (props: any) => {
     if(props.forgotPasswordMobile && props.forgotPasswordMobile.message && props.forgotPasswordMobile.message.includes('Success')){
       setOtpSent(true);
       setLoginError('');
+      setLoading(false)
     } else {
       if (props.forgotPasswordMobile && props.forgotPasswordMobile.message) {
+        setLoading(false)
         setLoginError(props.forgotPasswordMobile.message);
       }
     }
@@ -289,9 +300,11 @@ const ForgotPassword = (props: any) => {
     >
       Password Changed Successfully
     </ThemedText> :
-    <Button mode="contained" onPress={handleLogin} style={[Loginstyles.button, { backgroundColor: '#F18551' }]}>
-      {otpSent ? "Reset Password" : "Send OTP"}
+    <View pointerEvents="auto" style={{ zIndex: 999 }} >
+    <Button mode="contained" onPress={handleLogin} style={[loading ? Loginstyles.loadingButton : Loginstyles.button, { backgroundColor: '#F18551' }]}>
+      {loading ? "Loading.." : otpSent ? "Reset Password" : "Send OTP"}
     </Button>
+    </View>
   }
     </LoginLayout>
   );

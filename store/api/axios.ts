@@ -11,7 +11,7 @@ import { router } from "expo-router";
 
 
 const axios_config = axios.create({
-    baseURL: `https://lms.visionfundindia.in`
+    baseURL: `https://staging.visionfundindia.in`
 });
 
 const redirect_to_login = (): void => {

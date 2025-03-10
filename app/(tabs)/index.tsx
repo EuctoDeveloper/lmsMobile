@@ -1,17 +1,18 @@
 import { Image, StyleSheet, Platform, ImageBackground, View, Dimensions, ScrollView, TouchableOpacity, RefreshControl } from 'react-native';
 
-import { ThemedText } from '@/components/ThemedText';
+import { ThemedText } from '../../components/ThemedText';
 import { connect } from 'react-redux';
 import { useCallback, useEffect, useState } from 'react';
 import { TextInput, Button, Icon } from 'react-native-paper';
 import { useFocusEffect, useRouter } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
-import Carousel from '@/components/Element/Carousel';
-import CircleProgress from '@/components/Element/CircleProgress';
-import NotificationBell from '@/components/Element/NotificationBell';
-import { enableAutoNavigate, enrollCourse, getNotifications, getRecentCourses } from '@/store/action/common/courseAction';
+import Carousel from '../../components/Element/Carousel';
+import CircleProgress from '../../components/Element/CircleProgress';
+import NotificationBell from '../../components/Element/NotificationBell';
+import { enableAutoNavigate, enrollCourse, getNotifications, getRecentCourses } from '../../store/action/common/courseAction';
 import { FontAwesome5 } from '@expo/vector-icons';
-import useBackHandler from '@/hooks/useBackHandler';
+import useBackHandler from '../../hooks/useBackHandler';
+import { getUpcomingWebinar } from '../../store/action/common/webinarActions';
 
 function HomeScreen(props: any) {
   const router = useRouter();
@@ -20,6 +21,7 @@ function HomeScreen(props: any) {
   const [courses, setCourses] = useState<any>([]);
   const [enrollCourseId, setEnrollCourseId] = useState(null);
   const [notificationCount, setNotificationCount] = useState(0);
+  const [upcomingWebinar, setUpcomingWebinar] = useState<any>(null);
   useBackHandler();
 
   // This will store the current scroll position
@@ -30,6 +32,7 @@ function HomeScreen(props: any) {
     // Simulate a network request or data update
       props.getRecentCourses_();
       props.getNotifications_();
+      props.getUpcomingWebinar_();
 
   };
   const renderItem = ({ item }: any) => (
@@ -70,6 +73,13 @@ function HomeScreen(props: any) {
       setNotificationCount(props.notifications.filter((item: any)=>!item.dirty).length);
     }
   }, [props.notifications]);
+  useEffect(() => {
+    if(props.upcomingWebinar && props.upcomingWebinar.date){
+      setUpcomingWebinar(props.upcomingWebinar);
+    } else {
+      setUpcomingWebinar(null);
+    }
+  }, [props.upcomingWebinar]);
 
   const getName = () => {
     const fName = SecureStore.getItem('firstName') || props?.login?.userData?.firstName || props?.otpLogin?.userData?.firstName;
@@ -84,6 +94,25 @@ function HomeScreen(props: any) {
     } else {
       props.enableAutoNavigate_();
       router.push({pathname: '/Pages/Course', params:{id: item.courseId, disableForcePush: 'false'}});
+    }
+  }
+  const meetClick = (id: any) =>{
+    props.enableAutoNavigate_();
+    router.push({pathname: '/Pages/WebinarDetail', params:{id}});
+  }
+  const formatDate = (timestamp: any) => {
+    let date = new Date(timestamp);
+    let options = { day: "2-digit", month: "2-digit", year: "numeric" };
+    return date.toLocaleDateString("en-GB", options);
+  }
+  const formatTime = (timeString: any) => {
+    if(timeString) {
+      let [hours, minutes] = timeString.split(":").map(Number);
+      let period = hours >= 12 ? "PM" : "AM";
+      hours = hours % 12 || 12; // Convert 0 to 12 for 12 AM
+      return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")} ${period}`;
+    } else {
+      return '';
     }
   }
   return (
@@ -131,7 +160,7 @@ function HomeScreen(props: any) {
                   }}
                   key={name}
                 >
-                  {name}
+                    {name.length > 18 ? name.substring(0, 15) + '...' : name}
                 </ThemedText>
               </View>
               <View style={{marginTop: 10}}>
@@ -149,16 +178,16 @@ function HomeScreen(props: any) {
           </ImageBackground>
           {courses.length > 0 &&
           <View style={{}}>
-            <TouchableOpacity style={{ backgroundColor: '#FEB053', padding: 10, borderRadius: 5, margin: 10, marginTop: 10 }} onPress={()=>courseClick(courses[0])}>
+            <TouchableOpacity style={{ backgroundColor: '#FEB053', padding: 10, borderRadius: 5, margin: 10, marginTop: 10 }} >
               <ThemedText style={{ fontSize: 15, color: 'white' }}>Recent</ThemedText>
-              <View style={{ 
+              <TouchableOpacity style={{ 
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 marginTop: 5,
                 backgroundColor:"#FFD19C",
                 borderRadius: 20,
                 padding:10
-              }}>
+              }} onPress={()=>courseClick(courses[0])} >
                   <ThemedText style={{ fontSize: 15, fontWeight: 600, marginTop: 5 }}>
                   {courses[0]?.title.length > 11 ? courses[0]?.title.substring(0, 11) + '...' : courses[0]?.title}
                   </ThemedText>
@@ -187,8 +216,8 @@ function HomeScreen(props: any) {
                       {new Date(courses[0].endDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
                   </ThemedText>
                 </View>
-              </View>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={()=>courseClick(courses[0])} style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <View style={{
                     backgroundColor: "#FFD19C",
@@ -215,7 +244,35 @@ function HomeScreen(props: any) {
                     <ThemedText style={{ fontSize: 15, color: 'black', marginLeft: 5, fontWeight: 700 }}>{courses[0].modules?.length || 1}</ThemedText>
                   </View>
                 </View>
-              </View>
+              </TouchableOpacity>
+              { upcomingWebinar &&
+                <TouchableOpacity onPress={()=>meetClick(upcomingWebinar.webinarId)} style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{
+                      backgroundColor: "#FFD19C",
+                      borderRadius: 50,
+                      padding: 25,
+                    }}>
+                      <TextInput.Icon icon="groups" color="#FEA234" size={35} style={{marginTop: 30, marginLeft: 33}} />
+                    </View>
+                    <View>
+                      <ThemedText style={{ fontSize: 15, color: 'black', marginLeft: 5 }}>Upcoming Meeting</ThemedText>
+                      <ThemedText style={{ fontSize: 15, color: 'black', marginLeft: 5, fontWeight: 700 }}>{formatDate(upcomingWebinar.date)} | {formatTime(upcomingWebinar.time)}</ThemedText>
+                    </View>
+                  </View>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{
+                      backgroundColor: "#FFD19C",
+                      borderRadius: 5,
+                      paddingHorizontal: 15,
+                      paddingVertical: 5
+                    }}>
+                      <ThemedText style={{
+                      color: '#FEA234', fontWeight: 800}}>View Meet &gt;</ThemedText>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              }
             </TouchableOpacity>
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <ThemedText style={{fontSize: 20, margin: 10, fontWeight: 600}}>My Courses</ThemedText>
@@ -251,7 +308,8 @@ const mapStateToProps = (state: any) => ({
   recentCourses: state.recentCourses?.response,
   enrollCourse: state.enrollCourse?.response,
   login: state.login?.response,
-  otpLogin: state.otpLogin?.response
+  otpLogin: state.otpLogin?.response,
+  upcomingWebinar: state.upcomingWebinar?.response
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -259,6 +317,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   getRecentCourses_: () => dispatch(getRecentCourses()),
   enrollCourse_: (id: any) => dispatch(enrollCourse(id)),
   enableAutoNavigate_: () => dispatch(enableAutoNavigate()),
+  getUpcomingWebinar_: () => dispatch(getUpcomingWebinar())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

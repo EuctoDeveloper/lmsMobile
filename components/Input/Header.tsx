@@ -30,7 +30,7 @@ const Header = (props: any) =>{
 
         <View style={styles.header}>
           <TouchableOpacity style={styles.backButton} onPress={goBack}>
-            <Text>←</Text>
+            <Text style={{ fontSize: 25, fontWeight: 'bold' }}>←</Text>
           </TouchableOpacity>
           <Text style={styles.headerTitle}>{props.title}</Text>
             <NotificationBell count={notificationCount} mode={"dark"} hideBellIcon={props.hideBellIcon} />
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FBFCF7',
     },
         backButton: {
-        padding: 8,
+        padding: 4,
     },
         headerTitle: {
         fontSize: 18,

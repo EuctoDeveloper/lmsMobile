@@ -108,6 +108,11 @@ export function enrollCourseReducer(state = initialEnrollCourse, action: any) {
                 loading: false,
                 response: action.message
             }
+        case type.RESET_ENROLL_COURSE:
+            return {
+                ...state,
+                response: {}
+            }
         default:
             return state
     }

@@ -87,26 +87,29 @@ const Login = (props: any) => {
 
   return (
     <LoginLayout>
-      <Text style={Loginstyles.sptext}>Log in to your Vision fund account!</Text>
+      <Text style={Loginstyles.sptext}>Log in to your EnlightHer account!</Text>
         <Text style={Loginstyles.text}>Email / Phone Number</Text>
         <TextInput
         value={email}
         onChangeText={text => setEmail(text)}
-        style={[Loginstyles.input, { backgroundColor: 'white' }]}
+        style={[Loginstyles.input, { backgroundColor: 'white', overflow: 'hidden', lineHeight: 30 }]}
         left={<TextInput.Icon icon="account" />}
+        textAlignVertical="bottom"
         error={!!emailError}
         placeholder='Enter your email or phone'
+
         />
         {emailError ? <Text style={Loginstyles.errorText}>{emailError}</Text> : null}
         <Text style={Loginstyles.text}>Password</Text>
         <TextInput
         value={password}
         onChangeText={text => setPassword(text)}
-        style={[Loginstyles.input, { backgroundColor: 'white' }]}
+        style={[Loginstyles.input, { backgroundColor: 'white', overflow: 'hidden', lineHeight: 40  }]}
         secureTextEntry={!passwordVisible}
         left={<TextInput.Icon icon="lock" />}
         error={!!passwordError}
         placeholder='Enter your password'
+        textAlignVertical="bottom"
         right={
           <TextInput.Icon
             icon={passwordVisible ? "eye" : "eye-off"}

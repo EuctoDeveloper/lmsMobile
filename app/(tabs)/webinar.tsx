@@ -2,12 +2,13 @@ import MonthPicker from '../../components/Element/MonthPicker';
 import { getWebinarList } from '../../store/action/common/webinarActions';
 import { router } from 'expo-router';
 import moment from 'moment';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { 
   View, Text, FlatList, StyleSheet, TouchableOpacity 
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Image } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 
@@ -16,10 +17,14 @@ const MeetingSchedule = (props: any) => {
   const [webinarList, setWebinarList] = useState<any>([]);
   const listRef = useRef<FlatList<any>>(null);
 
-  useEffect(() => {
-    props.getWebinarList_(selectedMonth);
+  useFocusEffect(
+    useCallback(() => {
+      console.log('Auto Navigate: ', props.courseDetail);
+      // if(routeName === "Pages/Course"){
+        props.getWebinarList_(selectedMonth);
+      // }
   }
-  , [selectedMonth]);
+  , [selectedMonth]))
 
   useEffect(() => {
     if (props.myWebinars && Array.isArray(props.myWebinars)) {

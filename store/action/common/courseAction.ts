@@ -13,6 +13,12 @@ export function enrollCourse(id: any) {
     }
 }
 
+export function resetEnrollCourse() {
+    return {
+        type: type.RESET_ENROLL_COURSE,
+    }
+}
+
 export function getCourseDetail(id: any) {
     return {
         type: type.GET_COURSE_DETAILS,

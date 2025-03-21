@@ -98,7 +98,7 @@ const Login = (props: any) => {
 
   return (
     <LoginLayout>
-      <Text style={Loginstyles.sptext}>Log in to your Vision fund account!</Text>
+      <Text style={Loginstyles.sptext}>Log in to your EnlightHer account!</Text>
         <Text style={Loginstyles.text}>Phone Number</Text>
         <TextInput
           value={phone}

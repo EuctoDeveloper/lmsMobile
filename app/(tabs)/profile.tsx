@@ -94,7 +94,7 @@ function TabTwoScreen(props:any) {
           <ThemedText style={{ color: 'black', fontSize: 15, textAlign: 'left', marginLeft: 20 }}>More</ThemedText>
 
           <View style={styles.card}>
-            <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between',marginBottom: 25 }} onPress={()=>{router.push({pathname: "https://visionfundindia.in/help-and-support" })}}>
+            <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between',marginBottom: 25 }} onPress={()=>{router.push({pathname: "https://visionfundindia.in/contact-us/" })}}>
               <Icon
                 source={'help-circle-outline'}
                 size={18}

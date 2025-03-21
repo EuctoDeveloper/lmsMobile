@@ -29,14 +29,16 @@ function Course(props: any) {
     const [lastUpdatedPercentage, setLastUpdatedPercentage] = useState(0);
     useFocusEffect(
         useCallback(() => {
+            console.log('Course Detail: ', courseDetail);
             if(!courseDetail)
+                console.log('Getting Course Detail: ', id);
                 props.getCourseDetail_(id);
         }, [id]
     ));
     useFocusEffect(
         useCallback(() => {
+            console.log('Auto Navigate: ', props.courseDetail);
             if(props.courseDetail && routeName === "Pages/Course"){
-
                 setActiveLessonId(null)
                 let lessonSelected = false;
                 setCourseDetail(props.courseDetail);
@@ -108,6 +110,7 @@ function Course(props: any) {
                 }
                 setVideoLink(lesson.source);
                 setActiveLessonId(lesson.lessonId);
+                console.log('Setting Video Position: ', lesson.progress.completedTime || 0); 
                 setTimeout(async()=>
                 {
                     if (videoRef.current) {
@@ -201,9 +204,10 @@ function Course(props: any) {
                                     data={course.item.lessons.filter((lesson: any)=> lesson.type === "video")}
                                     renderItem={({item, index}: any) => (
                                         <>
-                                            <TouchableOpacity style={{marginBottom: 10, ...(item.lessonId === activeLessonId ? {backgroundColor: "rgba(164, 164, 255, 0.2);"}: {})}} onPress={()=>console.log(item)}>
+                                            <TouchableOpacity style={{marginBottom: 10, ...(item.lessonId === activeLessonId ? {backgroundColor: "rgba(164, 164, 255, 0.2);"}: {})}} onPress={()=>lessonClick(item, true)}>
                                                 <View style={{paddingHorizontal: 16}}>
                                                     <ThemedText style={{fontSize: 16, fontWeight: "bold"}}>{index+1}. {item.title}</ThemedText>
+                                                    <ThemedText style={{marginLeft: 20, fontSize: 12}}>{item.content}</ThemedText>
                                                     <ThemedText style={{marginLeft: 20, fontSize:12}}>Video - {item.progress.completedPercentage}% completed</ThemedText>
                                                 </View>
                                             </TouchableOpacity>

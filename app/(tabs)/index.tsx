@@ -49,6 +49,7 @@ function HomeScreen(props: any) {
   useFocusEffect(
     useCallback(()=>{
       getName();
+      props.getUpcomingWebinar_();
     }, [])
   )
   useEffect(() => {
@@ -264,11 +265,11 @@ function HomeScreen(props: any) {
                     <View style={{
                       backgroundColor: "#FFD19C",
                       borderRadius: 5,
-                      paddingHorizontal: 15,
+                      paddingHorizontal: 5,
                       paddingVertical: 5
                     }}>
-                      <ThemedText style={{
-                      color: '#FEA234', fontWeight: 800}}>View Meet &gt;</ThemedText>
+                        <ThemedText style={{
+                        color: '#FEA234', fontWeight: 800}}>View &gt;</ThemedText>
                     </View>
                   </View>
                 </TouchableOpacity>

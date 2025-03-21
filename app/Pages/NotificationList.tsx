@@ -1,6 +1,6 @@
 import Header from '../../components/Input/Header';
 import useBackHandler from '../../hooks/useBackHandler';
-import { clearNotification, dirtNotification, getNotifications } from '../../store/action/common/courseAction';
+import { clearNotification, dirtNotification, enableAutoNavigate, enrollCourse, getNotifications, resetEnrollCourse } from '../../store/action/common/courseAction';
 import { useFocusEffect } from '@react-navigation/native';
 import { router } from 'expo-router';
 import React, { useEffect } from 'react';
@@ -9,11 +9,27 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 
 const NotificationItem = (props: any) => {
+  const [enrollCourseId, setEnrollCourseId] = React.useState(null);
   const clickNotification = (notification: any) => {
     props.clearNotification_(notification.notificationId);
-    router.push({pathname: notification.landing, params: {...(JSON.parse(notification.landingData)), disableForcePush: 'false'}});
+    if(notification.landing === "/Pages/Course"){
+      setEnrollCourseId(JSON.parse(notification.landingData).id);
+      console.log(JSON.parse(notification.landingData).id);
+      props.enrollCourse_(JSON.parse(notification.landingData).id);
+    }
+    else {
+      router.push({pathname: notification.landing, params: {...(JSON.parse(notification.landingData)), disableForcePush: 'false'}});
+    }
   }
   useBackHandler();
+  useEffect(() => {
+    console.log(props.enrollCourse, enrollCourseId, "Inddd");
+    if(enrollCourseId && props.enrollCourse && typeof props.enrollCourse === "string" && (props.enrollCourse.includes('Invalid') || props.enrollCourse.includes('Enrolled'))){
+      setEnrollCourseId(null);
+      props.enableAutoNavigate_();
+      router.push({pathname: '/Pages/Course', params:{id: enrollCourseId, disableForcePush: 'false'}});
+    }
+  }, [props.enrollCourse]);
   return (
     <TouchableOpacity style={styles.notificationItem} onPress={()=>clickNotification(props.notification)}>
       <Image source={{uri: props.notification.image}} style={styles.profileImage} />
@@ -35,7 +51,7 @@ const NotificationItem = (props: any) => {
   );
 };
 
-const NotificationList = ({ notifications }: any) => {
+const NotificationList = ({ notifications, ...props }: any) => {
   return (
     <View style={styles.notificationList}>
       {notifications.map((notification: any, index: any) => (
@@ -43,6 +59,9 @@ const NotificationList = ({ notifications }: any) => {
           key={index}
           notification={notification}
           clearNotification_={clearNotification}
+          enrollCourse_={props.enrollCourse_}
+          enrollCourse={props.enrollCourse}
+          enableAutoNavigate_={props.enableAutoNavigate_}
         />
       ))}
     </View>
@@ -53,6 +72,7 @@ const MyComponent = (props: any) => {
   const [notifications, setNotifications] = React.useState([]);
   useEffect(() => {
     props.getNotifications_();
+    props.resetEnrollCourse_();
   }
   , []);
   useFocusEffect(
@@ -83,7 +103,13 @@ const MyComponent = (props: any) => {
             </TouchableOpacity>
         </View>
       }
-      <NotificationList notifications={notifications} clearNotification_={props.clearNotification_} />
+      <NotificationList 
+        notifications={notifications} 
+        clearNotification_={props.clearNotification_} 
+        enrollCourse_={props.enrollCourse_} 
+        enrollCourse={props.enrollCourse}
+        enableAutoNavigate_={props.enableAutoNavigate_} 
+      />
     </View>
     </SafeAreaView>
   );
@@ -92,12 +118,16 @@ const MyComponent = (props: any) => {
 
 const mapStateToProps = (state: any) => ({
   notifications: state.notifications?.response,
+  enrollCourse: state.enrollCourse?.response,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   getNotifications_ : () => dispatch(getNotifications()),
   dirtNotification_: () => dispatch(dirtNotification()),
   clearNotification_: (id: any) => dispatch(clearNotification(id)),
+  enrollCourse_: (id: any) => dispatch(enrollCourse(id)),
+  enableAutoNavigate_: () => dispatch(enableAutoNavigate()),
+  resetEnrollCourse_: () => dispatch(resetEnrollCourse()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyComponent);

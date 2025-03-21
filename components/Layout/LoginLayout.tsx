@@ -25,9 +25,9 @@ const LoginLayout = (props: any) => {
             style={{...Loginstyles.illusImage, flex: 1}}
         >
           <ScrollView keyboardShouldPersistTaps='handled'>
-            <View style={{...Loginstyles.container, ...(props.page === "ForgotPassword" ? {paddingTop: 100}: {})}}>
+            <View style={{...Loginstyles.container, ...(props.page === "ForgotPassword" ? {paddingTop: 70}: {})}}>
               <Image
-              source={require('../../assets/images/logo.png')}
+              source={require('../../assets/images/logo-enlight.png')}
               style={Loginstyles.image}
               />
               {props.children}

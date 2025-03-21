@@ -34,7 +34,7 @@ function Activity(props: any) {
             <Header title={"Activity"} page={{pathname: '/Pages/Course', params:{id: lessonDetail?.courseId}}} onBack={()=>{
                 setActivity(null);
             }} /> 
-            {activity && (activity.type === 'card' ? <CardSwiper cards={activity.questions} key={activity.questions} /> : <QuestionAnswerComponent id={id} questionsAndAnswers={activity.questions} key={activity.questions} />) }
+            {activity && (activity.type === 'card' ? <CardSwiper id={id} cards={activity.questions} key={activity.questions} courseId={props.lessonDetail.courseId} /> : <QuestionAnswerComponent id={id} questionsAndAnswers={activity.questions} key={activity.questions} courseId={props.lessonDetail.courseId} />) }
         </SafeAreaView>
     )
 }

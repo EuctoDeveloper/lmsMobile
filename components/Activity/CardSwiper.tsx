@@ -214,11 +214,11 @@ function CardSwiper(props: any) {
               onPress={() => {
                 router.push({
                   pathname: '/Pages/Course',
-                  params: { id: props.id, disableForcePush: 'true' },
+                  params: { id: props.courseId, disableForcePush: 'true' },
                 });
               }}
             >
-              <Text style={styles.backText}>Back to Course {props.id}</Text>
+              <Text style={styles.backText}>Back to Course</Text>
             </TouchableOpacity>
           </View>
         </View>

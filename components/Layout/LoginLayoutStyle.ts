@@ -16,8 +16,9 @@ export const Loginstyles = StyleSheet.create({
       marginBottom: 10,
     },
     input: {
-      height: 40,
+      height: 35,
       marginBottom: 10,
+      paddingBottom: 5,
       borderWidth: 1,
       borderColor: '#c1c1c1',
     },
@@ -34,13 +35,13 @@ export const Loginstyles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        paddingTop: 200,
+        paddingTop: 100,
         backgroundColor: '#FFFBF4',
         padding: 40,
     },
     image: {
         width: 300,
-        height: 60,
+        height: 175,
         marginBottom: 20,
     },
     illusImage: {

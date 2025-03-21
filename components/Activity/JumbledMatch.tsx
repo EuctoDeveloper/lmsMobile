@@ -14,7 +14,7 @@ interface QuestionAnswer {
   question: string;
   answer: string;
 }
-const QuestionAnswerComponent: any = (props: any) => {
+function QuestionAnswerComponent(props: any) {
   const [questions, setQuestions] = useState([]);
   useEffect(() => {
     if(props.questionsAndAnswers && Array.isArray(props.questionsAndAnswers)){
@@ -111,9 +111,14 @@ const InnerQuestionAnswerComponent: React.FC = (props: any) => {
         <TouchableOpacity style={styles.startButton} onPress={()=>{setCheckAnswers(!checkAnswers)}}>
             <Text style={styles.startButtonText}>{checkAnswers ? "Hide Answers" : "Check Answers"}</Text>
         </TouchableOpacity>
-        <TouchableOpacity  onPress={()=>{
-          router.push({pathname: '/Pages/Course', params:{id: props.id, disableForcePush: 'true'}})
-        }}>
+        <TouchableOpacity
+          onPress={()=>{
+            router.push({
+              pathname: '/Pages/Course', 
+              params:{id: props.courseId, disableForcePush: 'true'}
+            })
+          }}
+        >
             <Text style={styles.backText}>Back to Course</Text>
         </TouchableOpacity>
       </View>

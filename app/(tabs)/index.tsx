@@ -254,7 +254,7 @@ function HomeScreen(props: any) {
                       borderRadius: 50,
                       padding: 25,
                     }}>
-                      <TextInput.Icon icon="groups" color="#FEA234" size={35} style={{marginTop: 30, marginLeft: 33}} />
+                      <TextInput.Icon icon="account-group" color="#FEA234" size={35} style={{marginTop: 30, marginLeft: 33}} />
                     </View>
                     <View>
                       <ThemedText style={{ fontSize: 15, color: 'black', marginLeft: 5 }}>Upcoming Meeting</ThemedText>

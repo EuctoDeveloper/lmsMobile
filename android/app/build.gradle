@@ -115,8 +115,8 @@ android {
         applicationId 'in.visionfundindia.lms'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.1.0"
+        versionCode 5
+        versionName "2.0.1"
     }
     signingConfigs {
         debug {
@@ -124,6 +124,12 @@ android {
             storePassword 'android'
             keyAlias 'androiddebugkey'
             keyPassword 'android'
+        }
+        release {
+            storeFile file('release.jks')
+            storePassword '5f2606c1cd36d60b40d5fd8297a4672a'
+            keyAlias '60366aab5149a623c4699f79e20a4179'
+            keyPassword '46e2694409b8af82b9cabd7ab8e8ebaf'
         }
     }
     buildTypes {
@@ -133,7 +139,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             shrinkResources (findProperty('android.enableShrinkResourcesInReleaseBuilds')?.toBoolean() ?: false)
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"

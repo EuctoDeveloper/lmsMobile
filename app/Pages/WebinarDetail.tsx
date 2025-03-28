@@ -19,10 +19,12 @@ const WebinarDetail = (props: any) => {
   const params = useLocalSearchParams();
 
   const [webinarDetail, setWebinarDetail] = React.useState<any>({});
+  const [waitingForHost, setWaitingForHost] = React.useState(false);
   const id = params.id;
 
   const initializeZoom = async () => {
     console.log("init");
+    setWaitingForHost(false);
   
   try {
     let token = await postApi('/stream/webinar/getJwtToken', {
@@ -36,7 +38,7 @@ const WebinarDetail = (props: any) => {
         domain: 'zoom.us',
       },
       {
-        disableShowVideoPreviewWhenJoinMeeting: true,
+        disableShowVideoPreviewWhenJoinMeeting: false,
         enableCustomizedMeetingUI: false,  
         
       }, 
@@ -58,10 +60,28 @@ const WebinarDetail = (props: any) => {
     }).then(() => {
       console.log('Meeting joined successfullyq'); 
     }).catch((error) => {
-      console.error('Failed to join meeting', error);
-      Alert.alert("Too Early", "You can only join the meeting only after Host starts it.");
+      // Alert.alert("Too Early", "You can only join the meeting only after Host starts it.");
+      // console.error('Failed to join meeting', error);
     });;
     console.log("join meeting completed");
+    ZoomUs.onMeetingStatusChange(async (status) => {
+      console.log('Meeting Status:', status.event);
+      if (status.event === 'MEETING_STATUS_WAITINGFORHOST') {
+        console.log("Waiting for host to start the meeting");
+        await ZoomUs.leaveMeeting();
+        setTimeout(() => {
+          if(!waitingForHost) {
+            setWaitingForHost(true);
+          }
+        }, 1000);
+        return "Join Later"
+        // Show waiting UI
+      } else if (status.event === 'MEETING_STATUS_INMEETING') {
+        // Show meeting UI
+      }
+    });
+
+    ;
   } catch (error) {
     console.error("Error initializing or joining Zoom meeting:", error);
     Alert.alert("Too Early", "You can only join the meeting only after Host starts it.");
@@ -124,6 +144,15 @@ const WebinarDetail = (props: any) => {
       setWebinarDetail(props.webinarDetail);
     }
   }, [props.webinarDetail]);
+
+  useEffect(() => {
+    if (waitingForHost) {
+      setTimeout(() => {
+        Alert.alert("Waiting for the host.", "Host hasn't started this meeting yet, try again later.");
+      },200)
+    }
+  }
+  , [waitingForHost]);
 
   return (
     <SafeAreaView style={{flex: 1}}>
